@@ -15,6 +15,8 @@
             erotus = luku1 - luku2;
             osamäärä = luku1 / luku2;
 
+
+            
             Console.WriteLine("Peruslaskujen tulokset: ");
             Console.WriteLine("Tulo: " + tulo);
             Console.WriteLine("Summa: " + summa);

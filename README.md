@@ -19,9 +19,11 @@
 
   
 ```
-Luvut yhdessä pötkössä: 10,55,5
-Luvut erikseen listattuna: 10,5 5,5
-Lukujen summa on: 16
+Peruslaskujen tulokset:
+Tulo: 57,75
+Summa: 16
+Erotus: 5
+Osamäärä: 1,9090909090909092
 ```
 > [!IMPORTANT]
 > Koodin kirjoittamisen johdanto

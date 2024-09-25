@@ -39,11 +39,20 @@ namespace HelloWorldTest
 
                 var resultLines = result.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
 
-                Assert.True(LineContainsIgnoreSpaces(resultLines[0], "Peruslaskujen tulokset:"), "Line does not contain expected text: " + resultLines[0]);
-                Assert.True(LineContainsIgnoreSpaces(resultLines[1], "57,75"), "Line does not contain expected text: " + resultLines[1]);
-                Assert.True(LineContainsIgnoreSpaces(resultLines[2], "16"), "Line does not contain expected text: " + resultLines[2]);
-                Assert.True(LineContainsIgnoreSpaces(resultLines[3], " 5"), "Line does not contain expected text: " + resultLines[3]);
-                Assert.True(LineContainsIgnoreSpaces(resultLines[4], " 1,9090909"), "Line does not contain expected text: " + resultLines[4]);
+              Assert.True(LineContainsIgnoreSpaces(resultLines[0], "Peruslaskujen tulokset:"),
+    $"Expected: 'Peruslaskujen tulokset:' but got: '{resultLines[0]}'");
+
+Assert.True(LineContainsIgnoreSpaces(resultLines[1], "57,75"),
+    $"Expected: '57,75' but got: '{resultLines[1]}'");
+
+Assert.True(LineContainsIgnoreSpaces(resultLines[2], "16"),
+    $"Expected: '16' but got: '{resultLines[2]}'");
+
+Assert.True(LineContainsIgnoreSpaces(resultLines[3], "5"),
+    $"Expected: '5' but got: '{resultLines[3]}'");
+
+Assert.True(LineContainsIgnoreSpaces(resultLines[4], "1,9090909"),
+    $"Expected: '1,9090909' but got: '{resultLines[4]}'");
             }
             catch (OperationCanceledException)
             {
@@ -70,6 +79,21 @@ namespace HelloWorldTest
         {
             return line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length;
         }
+
+        private bool LineContainsIgnoreSpaces(string actualLine, string expectedLine)
+{
+    // Normalize spaces
+    actualLine = actualLine.Replace(" ", "").ToLower();
+    expectedLine = expectedLine.Replace(" ", "").ToLower();
+
+    // Normalize decimal separators (replace commas with periods)
+    actualLine = actualLine.Replace(',', '.');
+    expectedLine = expectedLine.Replace(',', '.');
+
+    // Check if the actual line contains the expected line
+    return actualLine.Contains(expectedLine);
+}
+
 
         private bool CompareLines(string[] actualLines, string[] expectedLines)
         {

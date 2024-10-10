@@ -39,20 +39,20 @@ namespace HelloWorldTest
 
                 var resultLines = result.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None);
 
-              Assert.True(LineContainsIgnoreSpaces(resultLines[0], "Peruslaskujen tulokset:"),
-    $"Expected: 'Peruslaskujen tulokset:' but got: '{resultLines[0]}'");
+                Assert.True(LineContainsIgnoreSpaces(resultLines[0], "Peruslaskujen tulokset:"),
+      $"Expected: 'Peruslaskujen tulokset:' but got: '{resultLines[0]}'");
 
-Assert.True(LineContainsIgnoreSpaces(resultLines[1], "57,75"),
-    $"Expected: '57,75' but got: '{resultLines[1]}'");
+                Assert.True(LineContainsIgnoreSpaces(resultLines[1], "57,75"),
+                    $"Expected: '57,75' but got: '{resultLines[1]}'");
 
-Assert.True(LineContainsIgnoreSpaces(resultLines[2], "16"),
-    $"Expected: '16' but got: '{resultLines[2]}'");
+                Assert.True(LineContainsIgnoreSpaces(resultLines[2], "16"),
+                    $"Expected: '16' but got: '{resultLines[2]}'");
 
-Assert.True(LineContainsIgnoreSpaces(resultLines[3], "5"),
-    $"Expected: '5' but got: '{resultLines[3]}'");
+                Assert.True(LineContainsIgnoreSpaces(resultLines[3], "5"),
+                    $"Expected: '5' but got: '{resultLines[3]}'");
 
-Assert.True(LineContainsIgnoreSpaces(resultLines[4], "1,9090909"),
-    $"Expected: '1,9090909' but got: '{resultLines[4]}'");
+                Assert.True(LineContainsIgnoreSpaces(resultLines[4], "1,9090909"),
+                    $"Expected: '1,9090909' but got: '{resultLines[4]}'");
             }
             catch (OperationCanceledException)
             {
@@ -69,32 +69,23 @@ Assert.True(LineContainsIgnoreSpaces(resultLines[4], "1,9090909"),
         }
         private bool LineContainsIgnoreSpaces(string line, string expectedText)
         {
-            // Remove all whitespace from the line and the expected text
-            string normalizedLine = Regex.Replace(line, @"\s+", "");
-            string normalizedExpectedText = Regex.Replace(expectedText, @"\s+", "");
+            // Poista kaikki valkoiset välilyönnit ja normalisoi merkkien kirjainkoko
+            string normalizedLine = Regex.Replace(line, @"\s+", "").ToLower();
+            string normalizedExpectedText = Regex.Replace(expectedText, @"\s+", "").ToLower();
+
+            // Normalisoi desimaalierottimet (korvaa pilkut pisteillä)
+            normalizedLine = normalizedLine.Replace(',', '.');
+            normalizedExpectedText = normalizedExpectedText.Replace(',', '.');
+
+            // Tarkista, sisältääkö normalizedLine normalizedExpectedText:n
             return normalizedLine.Contains(normalizedExpectedText);
         }
+
 
         private int CountWords(string line)
         {
             return line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length;
         }
-
-        private bool LineContainsIgnoreSpaces(string actualLine, string expectedLine)
-{
-    // Normalize spaces
-    actualLine = actualLine.Replace(" ", "").ToLower();
-    expectedLine = expectedLine.Replace(" ", "").ToLower();
-
-    // Normalize decimal separators (replace commas with periods)
-    actualLine = actualLine.Replace(',', '.');
-    expectedLine = expectedLine.Replace(',', '.');
-
-    // Check if the actual line contains the expected line
-    return actualLine.Contains(expectedLine);
-}
-
-
         private bool CompareLines(string[] actualLines, string[] expectedLines)
         {
             if (actualLines.Length != expectedLines.Length)
